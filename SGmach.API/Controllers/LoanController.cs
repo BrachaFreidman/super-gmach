@@ -28,6 +28,7 @@ namespace API.Controllers {
     public void Update ([FromBody] LoanDTO loan) {
       LoanBL.Update (loan);
     }
+    
 
     [HttpGet]
     [Route ("get")]

@@ -1,4 +1,5 @@
 export class Repayment {
+    [x: string]: any;
     amount;
     status;
     remark;
@@ -6,5 +7,6 @@ export class Repayment {
     id;
     date;
     userName;
+    userId
     
 }

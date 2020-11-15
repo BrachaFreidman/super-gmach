@@ -11,45 +11,47 @@ import { futureDay, validation } from 'src/ts/Validation';
   selector: 'app-loan-edit',
   templateUrl: './loan-edit.component.html',
   styleUrls: ['./loan-edit.component.css'],
-  providers:[DatePipe]
+  providers: [DatePipe]
 })
 export class LoanEditComponent implements OnInit {
-   loan:Loan
-  constructor(private activeRouter:ActivatedRoute,private LoanService:LoanService,private datePipe:DatePipe) { }
+  loan: Loan
+  constructor(private activeRouter: ActivatedRoute, private LoanService: LoanService, private datePipe: DatePipe) { }
   message = { title: '', body: '', href: '', buttonText: "הוסף ", click: "this.Add()" };
   Load: FormGroup;
   idUser;
-  user:Friend;
+  user: Friend;
   futureDay = futureDay;
   SetUser(event) {
     debugger
-    this.user = <Friend> JSON.parse( event);
-    this.idUser=this.user.id;
+    this.user = <Friend>JSON.parse(event);
+    this.idUser = this.user.id;
   }
 
   ngOnInit(): void {
-    this.activeRouter.paramMap.subscribe(res => (this.LoanService.GetById(res.get('id')).subscribe(l=>{
-      this.loan=<Loan>l;
+    this.activeRouter.paramMap.subscribe(res => (this.LoanService.GetById(res.get('id')).subscribe(l => {
+      this.loan = <Loan>l;
       console.log(l);
-   
-    this.Load = new FormGroup({
-      remark: new FormControl(this.loan.remark),
-      // loan_status: new FormControl({value:this.loan.s}),
-      id_load: new FormControl(),
-      loan_status:new FormControl({value:this.loan.loan_status}),
-      amount: new FormControl({value:this.loan.amount,disabled:this.loan.loan_status!="Unauthorized"}),
-      payments: new FormControl(this.loan.payments),
-      date_start: new FormControl({ value:this.datePipe.transform(this.loan.date_start, "yyyy-MM-dd"),disabled:this.loan.loan_status!="Unauthorized"}),
-      month: new FormControl({value:this.loan.month,disabled:this.loan.loan_status!="Unauthorized"}),
-    });
-  })
-  ));
-    this.LoanService.getFutureBalances().subscribe(x=>console.log(x));
+
+      this.Load = new FormGroup({
+        remark: new FormControl(this.loan.remark),
+        // loan_status: new FormControl({value:this.loan.s}),
+        id_load: new FormControl(),
+        loan_status: new FormControl({ value: this.loan.loan_status }),
+        amount: new FormControl({ value: this.loan.amount, disabled: this.loan.loan_status != "Unauthorized" }),
+        payments: new FormControl(this.loan.payments),
+        date_start: new FormControl({
+          value: this.datePipe.transform(this.loan.date_start, "yyyy-MM-dd")
+          , disabled: this.loan.loan_status != "Unauthorized"
+        }),
+        month: new FormControl({ value: this.loan.month, disabled: this.loan.loan_status != "Unauthorized" }),
+      });
+    })
+    ));
+    this.LoanService.getFutureBalances().subscribe(x => console.log(x));
   }
   Add(event) {
     debugger
-    if(event.target.id!="Add-B")
-    {
+    if (event.target.id != "Add-B") {
       return
     }
     validation();
@@ -61,13 +63,13 @@ export class LoanEditComponent implements OnInit {
     // NewLoan.guarantee_1 = this.Load.get('guarantee_1').value;
     NewLoan.month = this.Load.get('month').value;
     NewLoan.id_user = this.idUser;
-    NewLoan.entryDate=new Date();
-    NewLoan.score=0;
-    NewLoan.numRepayment=this.Load.get('payments').value
+    NewLoan.entryDate = new Date();
+    NewLoan.score = 0;
+    NewLoan.numRepayment = this.Load.get('payments').value
     // NewLoan.BeginningRepayment= this.Load.get('month').value;
     NewLoan.loan_status = this.Load.get('loan_status').value;
     NewLoan.paid = false;
-    NewLoan.userName=null;
+    NewLoan.userName = null;
     NewLoan.remark = this.Load.get('remark').value;
     console.log(NewLoan);
     // this.LoanService.Edit(NewLoan).subscribe(

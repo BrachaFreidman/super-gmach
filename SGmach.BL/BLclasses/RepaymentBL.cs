@@ -22,6 +22,19 @@ namespace SGmach.BL.BLclasses {
             }
             return repyments;
         }
+        public static void Update(RepaymentsDTO repayment){
+            db DB = new db();
+            Repayments repaymentDal = DB.Repayments.FirstOrDefault(r=> r.RepaymentId==repayment.Id);
+            repaymentDal.Amount= repayment.Amount;
+          //  repaymentDal.Status= repayment.Status;
+
+            repaymentDal.Date= repayment.Date;
+            // repaymentDal.remark= repayment.Remark;
+            DB.SaveChanges();
+
+
+
+        }
         public static RepaymentsDTO getRepaymentById(int id)
         {
             db DB=new db();
