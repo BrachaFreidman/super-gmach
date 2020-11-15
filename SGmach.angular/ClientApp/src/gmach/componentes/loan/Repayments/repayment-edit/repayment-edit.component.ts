@@ -59,8 +59,8 @@ export class RepaymentEditComponent implements OnInit {
           next: data => {
             debugger
             this.message.title = "ההוצאה נוספה בהצלחה";
-            this.message.body = "הפרטים נשמרו בהצלחה לחזרה לרשימת ההוצאות לחץ אישור";
-            this.message.href = "patty_cash/Expnditure/List";
+            this.message.body = "הפרטים נשמרו בהצלחה לחזרה לרשימת הפרעונות לחץ אישור";
+            this.message.href = "loan/repayments";
           },
           error: error =>{
             this.message.title = "יש תקלה בהוספה";
